@@ -24,15 +24,12 @@ Métricas resumidas:
     -Retorno anualizado (%)
     -Valor final (R$) de cada estratégia
 
-📂 Estrutura do Projeto
-
-
 🛠️ Instalação
 
 1 - Clone o repositório
 
-    git clone https://github.com/<seu-usuario>/risco-e-retorno.git
-    cd risco-e-retorno
+    git clone https://github.com/FrancaAraujo/ParidadeDeRisco
+    cd ParidadeDeRisco
 
 2 - Crie e ative um ambiente virtual 
 
