@@ -1,8 +1,3 @@
-# =======================
-# Dashboard único (Dash)
-# Layout do dashboard_v4 + Lógica completa do estrategias.py
-# =======================
-
 import dash
 from dash import dcc, html, Input, Output, State
 import pandas as pd
@@ -12,19 +7,18 @@ from datetime import datetime
 import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
 
-# ====== Imports usados na lógica (mantidos do estrategias.py) ======
 import warnings
 from scipy.optimize import minimize
-import matplotlib.pyplot as plt  # (não usado no Dash, mas mantido para compatibilidade)
-import matplotlib.dates as mdates  # (não usado no Dash, mas mantido para compatibilidade)
+import matplotlib.pyplot as plt 
+import matplotlib.dates as mdates  
 
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="scipy.optimize._slsqp_py")
 
 # =============================================
-# CARREGAMENTO DE DADOS (mesma estrutura do estrategias.py)
+# CARREGAMENTO DE DADOS 
 # =============================================
 
-# Caminhos dos arquivos (mantenha a pasta 'arquivos' ao lado do script)
+# Caminhos dos arquivos
 # file_path = 'arquivos/Dados_Ativos_B32.csv'
 file_path = 'arquivos/Dados_Ativos_B3_close.csv'
 # file_path = 'arquivos/Dados_Ativos_B3_AdjClose.csv'
@@ -40,7 +34,7 @@ data['Data'] = pd.to_datetime(data['Data'], format='%d/%m/%Y %H:%M:%S')
 cdi_data_total['data'] = pd.to_datetime(cdi_data_total['data'], dayfirst=True) + pd.Timedelta(hours=16, minutes=56)
 
 # =============================================
-# VARIÁVEIS GLOBAIS USADAS PELAS ESTRATÉGIAS (mesmo padrão)
+# VARIÁVEIS GLOBAIS USADAS PELAS ESTRATÉGIAS 
 # =============================================
 
 # Estas variáveis serão redefinidas a cada simulação, conforme a seleção do usuário
@@ -74,7 +68,7 @@ end_2023 = '2025-03-01'
 volatilidades_mensais = {}
 
 # =============================================
-# FUNÇÕES (cópia fiel da lógica de estrategias.py — sem alterar cálculo)
+# FUNÇÕES 
 # =============================================
 
 def filter_cdi_data(month, df_cdi_total, df_assets):
@@ -447,7 +441,7 @@ def EstrategiaCDI(aporte_inicial_, aporte_mensal_, portfolio_values_cdi_):
     return saldo
 
 # =============================================
-# DASHBOARD (layout moderno)
+# DASHBOARD 
 # =============================================
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX])
@@ -886,7 +880,7 @@ def update_dashboard(n_clicks, theme, aporte_ini, aporte_mes, start_date, end_da
         raise PreventUpdate
 
     # ===============================
-    # PREPARAÇÃO (mesma limpeza do estrategias.py)
+    # PREPARAÇÃO 
     # ===============================
     global asset_columns, aporte_inicial, aporte_mensal, total_investido
     global n_assets, x_initial, b, total_invested_portfolio
@@ -899,7 +893,7 @@ def update_dashboard(n_clicks, theme, aporte_ini, aporte_mes, start_date, end_da
     # Seleção de ativos vinda do dropdown
     asset_columns = list(selected_assets)
 
-    # Converte colunas escolhidas para float (como no estrategias.py)
+    # Converte colunas escolhidas para float 
     cols_validas = []
     for col in asset_columns:
         try:
@@ -938,14 +932,14 @@ def update_dashboard(n_clicks, theme, aporte_ini, aporte_mes, start_date, end_da
     end_2023 = pd.to_datetime(end_date).strftime('%Y-%m-%d')
 
     # ===============================
-    # EXECUÇÃO DAS ESTRATÉGIAS (sem alterar a lógica)
+    # EXECUÇÃO DAS ESTRATÉGIAS
     # ===============================
     EstrategiaEficiente(aporte_inicial, aporte_mensal, total_investido, portfolio_values_eficiente)
     ParidadeDeRisco(aporte_inicial, aporte_mensal, n_assets, x_initial, b, portfolio_values_paridade, individual_portfolio_values)
     EstrategiaCDI(aporte_inicial, aporte_mensal, cdi_values)
 
     # ===============================
-    # CONSTRUÇÃO DOS DATAFRAMES (mesmo procedimento do estrategias.py)
+    # CONSTRUÇÃO DOS DATAFRAMES 
     # ===============================
     df_eficiente = pd.DataFrame(portfolio_values_eficiente, columns=['Data', 'Eficiente']) if portfolio_values_eficiente else pd.DataFrame(columns=['Data','Eficiente'])
     df_paridade = pd.DataFrame(portfolio_values_paridade, columns=['Data', 'Paridade']) if portfolio_values_paridade else pd.DataFrame(columns=['Data','Paridade'])
@@ -957,7 +951,7 @@ def update_dashboard(n_clicks, theme, aporte_ini, aporte_mes, start_date, end_da
         df_comparacao.sort_values('Data', inplace=True)
         df_comparacao.ffill(inplace=True)
 
-    # Hover-texts (como no estrategias.py, para a série Eficiente)
+    # Hover-texts 
     hover_texts = []
     if not df_comparacao.empty:
         for date in df_comparacao['Data']:
@@ -973,7 +967,7 @@ def update_dashboard(n_clicks, theme, aporte_ini, aporte_mes, start_date, end_da
             hover_texts.append(tooltip)
 
     # ===============================
-    # GRÁFICO PRINCIPAL (exatamente como estrategias.py)
+    # GRÁFICO PRINCIPAL 
     # ===============================
     main_fig = go.Figure()
 
@@ -1016,7 +1010,7 @@ def update_dashboard(n_clicks, theme, aporte_ini, aporte_mes, start_date, end_da
     )
 
     # ===============================
-    # MÉTRICAS (baseadas no gráfico principal e total investido)
+    # MÉTRICAS 
     # ===============================
     months = len(pd.date_range(start=pd.to_datetime(start_date), end=pd.to_datetime(end_date), freq='MS'))
     total_investido_val = float(aporte_ini or 0) + float(aporte_mes or 0) * max(0, months - 1)
