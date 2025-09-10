@@ -52,3 +52,6 @@ Execute no terminal:
     
 O Dash iniciará o servidor local.
 Abra no navegador: 👉 http://127.0.0.1:8050
+
+<img width="1846" height="868" alt="image" src="https://github.com/user-attachments/assets/cd6b9325-e82a-49e1-9426-65537a5288c8" />
+
