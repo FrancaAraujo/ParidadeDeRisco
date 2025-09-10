@@ -19,10 +19,10 @@ Alocação de ativos (Pizza): distribuição percentual dos pesos da Paridade de
 Contribuição de risco (Barras): participação percentual de risco de cada ativo na Paridade de Risco.
 
 Métricas resumidas:
--Total investido
--Retorno acumulado (%)
--Retorno anualizado (%)
--Valor final (R$) de cada estratégia
+    -Total investido
+    -Retorno acumulado (%)
+    -Retorno anualizado (%)
+    -Valor final (R$) de cada estratégia
 
 📂 Estrutura do Projeto
 
